@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinanzasApi.Controllers;
 
-/// <summary>El usuario sale siempre del token: cada quien solo ve y registra lo suyo; el admin ve todo.</summary>
+// The user always comes from the token: each user only sees and records their own data; the admin sees everything.
 [ApiController]
 [Route("api/transactions")]
 [Authorize]

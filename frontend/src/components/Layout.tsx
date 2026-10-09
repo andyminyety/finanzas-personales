@@ -9,7 +9,7 @@ interface NavItem {
   adminOnly?: boolean
 }
 
-// Aquí se irán agregando los módulos de las próximas fases.
+// Menu entries. Those marked adminOnly are only visible to administrators.
 const NAV: NavItem[] = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/transacciones', label: 'Transacciones', icon: ArrowLeftRight },
@@ -68,7 +68,7 @@ export default function Layout() {
         </div>
       </aside>
 
-      {/* Barra superior en móvil */}
+      {/* Top bar on mobile */}
       <header className="flex items-center justify-between border-b border-line bg-white px-4 py-3 md:hidden">
         <span className="flex items-center gap-2 font-extrabold">
           <Wallet size={18} className="text-brand" /> <span className="hidden sm:inline">Finanzas</span>

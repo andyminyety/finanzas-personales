@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinanzasApi.Controllers;
 
-/// <summary>Cada usuario gestiona sus egresos. Un administrador puede indicar ?userId= para gestionar los de otro.</summary>
+// Each user manages their own expense items. An administrator can pass ?userId= to manage another user's.
 [ApiController]
 [Route("api/expense-items")]
 [Authorize]

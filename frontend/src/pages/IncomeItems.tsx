@@ -17,7 +17,7 @@ import type { CatalogItem, IncomeItem } from '../types'
 const empty: IncomeItemForm = { incomeTypeId: '', description: '', source: '' }
 
 export default function IncomeItems() {
-  const [owner, setOwner] = useState('') // '' = mi cuenta (solo el admin puede cambiarlo)
+  const [owner, setOwner] = useState('') // '' = my account (only an admin can change it)
   const [items, setItems] = useState<IncomeItem[]>([])
   const [types, setTypes] = useState<CatalogItem[]>([])
   const [loading, setLoading] = useState(true)

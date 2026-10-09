@@ -8,7 +8,7 @@ namespace FinanzasApi.Services;
 
 public interface IDashboardService
 {
-    /// <param name="userId">null = el usuario actual · "all" = todos (solo admin) · un id = ese usuario (solo admin)</param>
+    // userId: null = current user · "all" = every user (admin only) · an id = that user (admin only)
     Task<DashboardDto> GetAsync(string? userId, string currentUserId, bool isAdmin);
 }
 
@@ -36,7 +36,7 @@ public class DashboardService : IDashboardService
         User? user = null;
         if (!all)
         {
-            // Un usuario normal siempre ve lo suyo, aunque mande otro userId.
+            // A regular user always sees their own data, even if they send another userId.
             var id = isAdmin && !string.IsNullOrEmpty(userId) ? userId : currentUserId;
             user = await _users.GetByIdAsync(id) ?? throw new AppException("Usuario no encontrado.", 404);
         }
@@ -44,7 +44,7 @@ public class DashboardService : IDashboardService
         var periods = BuildPeriods(AppClock.Today, user?.CutDay);
         var current = periods[^1];
 
-        // Si el usuario cambió su día de corte, el período actual no puede empezar antes del último corte hecho.
+        // If the user changed their cut day, the current period cannot start before the last cut made.
         if (user is not null)
         {
             var lastCut = await _cuts.GetLastAsync(user.Id);
@@ -55,10 +55,10 @@ public class DashboardService : IDashboardService
             }
         }
 
-        // 1) Balance actual: todo lo histórico (los cortes se calculan con estos mismos datos).
+        // 1) Current balance: all history (cuts are calculated from this same data).
         var (totalIncome, totalExpense) = await _tx.TotalsAsync(new TransactionFilter { UserId = user?.Id });
 
-        // 2) Una sola consulta con los últimos 6 períodos; el resto se arma en memoria.
+        // 2) A single query with the last 6 periods; the rest is assembled in memory.
         var txs = await _tx.ListAsync(new TransactionFilter
         {
             UserId = user?.Id, From = periods[0].Start, To = current.End, IsActive = true
@@ -68,7 +68,7 @@ public class DashboardService : IDashboardService
         var periodIncome = inCurrent.Where(t => t.Type == TransactionTypes.Income).Sum(t => t.Amount);
         var periodExpense = inCurrent.Where(t => t.Type == TransactionTypes.Expense).Sum(t => t.Amount);
 
-        // 3) Últimas transacciones (de cualquier fecha).
+        // 3) Latest transactions (any date).
         var (last, _) = await _tx.SearchAsync(new TransactionFilter { UserId = user?.Id, IsActive = true }, 1, 8);
 
         var dto = new DashboardDto
@@ -101,10 +101,8 @@ public class DashboardService : IDashboardService
         return dto;
     }
 
-    /// <summary>
-    /// Los últimos 6 períodos (el actual al final). Para un usuario, períodos de su día de corte;
-    /// para "todos", meses calendario (cada usuario tiene su propio corte, no se pueden mezclar).
-    /// </summary>
+    // The last 6 periods (the current one last). For a user, periods based on their cut day;
+    // for "all", calendar months (each user has their own cut day, so they cannot be mixed).
     private static List<BillingPeriod> BuildPeriods(DateTime today, int? cutDay)
     {
         var list = new List<BillingPeriod>();

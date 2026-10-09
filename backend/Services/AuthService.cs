@@ -19,7 +19,7 @@ public class AuthService : IAuthService
     {
         var user = await _users.GetByLoginAsync(dto.Identifier);
 
-        // Mismo mensaje para usuario inexistente y clave incorrecta (no revela cuál falló).
+        // Same message for unknown user and wrong password (does not reveal which one failed).
         if (user is null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
             throw new AppException("Credenciales incorrectas.", 401);
 

@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace FinanzasApi.Config;
 
-/// <summary>Punto único de acceso a la base de datos MongoDB.</summary>
+// Single access point to the MongoDB database.
 public class MongoContext
 {
     public IMongoDatabase Database { get; }

@@ -4,11 +4,9 @@ using FinanzasApi.Repositories;
 
 namespace FinanzasApi.Services;
 
-/// <summary>
-/// Datos de demostración para la defensa (solo si Seed:DemoData=true). Crea un usuario con
-/// conceptos y transacciones de los últimos 40 días. Es idempotente: si el usuario ya existe, no hace nada.
-/// Credenciales: maria@finanzas.com / Maria123!
-/// </summary>
+// Sample data for development and testing (only when Seed:DemoData=true). Creates a user with
+// concepts and transactions from the last 40 days. Idempotent: if the user already exists, it does nothing.
+// Credentials: maria@demo.local / Demo123!
 public static class DemoDataSeeder
 {
     public static async Task RunAsync(IServiceProvider sp)
@@ -20,8 +18,8 @@ public static class DemoDataSeeder
         var transactions = sp.GetRequiredService<ITransactionRepository>();
         var counters = sp.GetRequiredService<ICounterRepository>();
 
-        const string email = "maria@finanzas.com";
-        // María puede haber cambiado su correo desde el perfil: se revisa también la cédula, que es única.
+        const string email = "maria@demo.local";
+        // María may have changed her email from the profile, so the cédula (unique) is checked too.
         const string cedula = "00100000017";
         if (await users.GetByEmailAsync(email) is not null || await users.GetByCedulaAsync(cedula) is not null) return;
 
@@ -30,16 +28,16 @@ public static class DemoDataSeeder
             Name = "María Pérez",
             CedulaRnc = cedula,
             Email = email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Maria123!"),
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Demo123!"),
             Role = Roles.User,
             PersonType = PersonTypes.Fisica,
             ExpenseLimit = 30000,
             CutDay = 1,
-            CreatedAt = DateTime.UtcNow.AddMonths(-3) // creada hace meses para que ya pueda tener cortes
+            CreatedAt = DateTime.UtcNow.AddMonths(-3) // created months ago so it can already have cuts
         };
         await users.CreateAsync(user);
 
-        // Los catálogos de María son suyos (los iniciales de cualquier usuario nuevo).
+        // María's catalogs belong to her (the same starter set any new user gets).
         var all = CatalogSeeder.StarterFor(user.Id);
         await catalogs.CreateManyAsync(all);
         CatalogItem Get(string type, string description) =>
@@ -59,9 +57,9 @@ public static class DemoDataSeeder
         var credito = Get(CatalogTypes.PaymentType, "Tarjeta de crédito");
 
         ExpenseItem Exp(string d, CatalogItem type, CatalogItem cat, CatalogItem pay) => new()
-        { UserId = user.Id, Description = d, ExpenseTypeId = type.Id, CategoryId = cat.Id, DefaultPaymentTypeId = pay.Id };
+            { UserId = user.Id, Description = d, ExpenseTypeId = type.Id, CategoryId = cat.Id, DefaultPaymentTypeId = pay.Id };
         IncomeItem Inc(string d, CatalogItem type, string source) => new()
-        { UserId = user.Id, Description = d, IncomeTypeId = type.Id, Source = source };
+            { UserId = user.Id, Description = d, IncomeTypeId = type.Id, Source = source };
 
         var supermercado = Exp("Supermercado", variable, alimentacion, credito);
         var alquiler = Exp("Alquiler", fijo, vivienda, transferencia);
@@ -72,29 +70,20 @@ public static class DemoDataSeeder
         foreach (var e in new[] { supermercado, alquiler, gasolina, cine }) await expenseItems.CreateAsync(e);
         foreach (var i in new[] { sueldo, freelance }) await incomeItems.CreateAsync(i);
 
-        // (días atrás, concepto, monto, tipo de pago, tarjeta)
+        // (days ago, concept, amount, payment type, card)
         var today = AppClock.Today;
         async Task AddExpense(int daysAgo, ExpenseItem item, decimal amount, CatalogItem pay, string? card = null)
         {
             var date = today.AddDays(-daysAgo);
             await transactions.CreateAsync(new Transaction
             {
-                Number = await counters.NextAsync("transactions"),
-                Type = TransactionTypes.Expense,
-                UserId = user.Id,
-                UserName = user.Name,
-                ItemId = item.Id,
-                ItemDescription = item.Description,
-                ExpenseTypeId = item.ExpenseTypeId,
-                ExpenseTypeName = all.First(c => c.Id == item.ExpenseTypeId).Description,
-                CategoryId = item.CategoryId,
-                CategoryName = all.First(c => c.Id == item.CategoryId).Description,
-                PaymentTypeId = pay.Id,
-                PaymentTypeName = pay.Description,
-                TransactionDate = date,
-                RegisteredAt = date,
-                Amount = amount,
-                CardLast4 = card
+                Number = await counters.NextAsync("transactions"), Type = TransactionTypes.Expense,
+                UserId = user.Id, UserName = user.Name,
+                ItemId = item.Id, ItemDescription = item.Description,
+                ExpenseTypeId = item.ExpenseTypeId, ExpenseTypeName = all.First(c => c.Id == item.ExpenseTypeId).Description,
+                CategoryId = item.CategoryId, CategoryName = all.First(c => c.Id == item.CategoryId).Description,
+                PaymentTypeId = pay.Id, PaymentTypeName = pay.Description,
+                TransactionDate = date, RegisteredAt = date, Amount = amount, CardLast4 = card
             });
         }
         async Task AddIncome(int daysAgo, IncomeItem item, decimal amount, CatalogItem pay)
@@ -102,19 +91,12 @@ public static class DemoDataSeeder
             var date = today.AddDays(-daysAgo);
             await transactions.CreateAsync(new Transaction
             {
-                Number = await counters.NextAsync("transactions"),
-                Type = TransactionTypes.Income,
-                UserId = user.Id,
-                UserName = user.Name,
-                ItemId = item.Id,
-                ItemDescription = item.Description,
-                IncomeTypeName = all.First(c => c.Id == item.IncomeTypeId).Description,
-                Source = item.Source,
-                PaymentTypeId = pay.Id,
-                PaymentTypeName = pay.Description,
-                TransactionDate = date,
-                RegisteredAt = date,
-                Amount = amount
+                Number = await counters.NextAsync("transactions"), Type = TransactionTypes.Income,
+                UserId = user.Id, UserName = user.Name,
+                ItemId = item.Id, ItemDescription = item.Description,
+                IncomeTypeName = all.First(c => c.Id == item.IncomeTypeId).Description, Source = item.Source,
+                PaymentTypeId = pay.Id, PaymentTypeName = pay.Description,
+                TransactionDate = date, RegisteredAt = date, Amount = amount
             });
         }
 

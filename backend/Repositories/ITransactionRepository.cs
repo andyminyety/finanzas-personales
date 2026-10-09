@@ -18,12 +18,12 @@ public interface ITransactionRepository
 {
     Task EnsureIndexesAsync();
     Task<(List<Transaction> Items, long Total)> SearchAsync(TransactionFilter filter, int page, int pageSize);
-    /// <summary>Todas las transacciones que cumplen el filtro (sin paginar), de la más reciente a la más antigua.</summary>
+    // All transactions matching the filter (unpaged), newest first.
     Task<List<Transaction>> ListAsync(TransactionFilter filter);
     Task<(decimal Income, decimal Expense)> TotalsAsync(TransactionFilter filter);
     Task<Transaction?> GetByIdAsync(string id);
     Task CreateAsync(Transaction t);
     Task ReplaceAsync(Transaction t);
-    /// <summary>Suma de transacciones activas de un usuario, tipo y rango de fechas (inclusive).</summary>
+    // Sum of a user's active transactions by type and date range (inclusive).
     Task<decimal> SumAsync(string userId, string type, DateTime from, DateTime to);
 }

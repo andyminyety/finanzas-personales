@@ -3,13 +3,13 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace FinanzasApi.Models;
 
-/// <summary>"Egreso" del enunciado: un concepto de gasto reutilizable (ej. Supermercado).</summary>
+// Expense item: a reusable expense concept (e.g. Supermarket).
 public class ExpenseItem
 {
     [BsonId, BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
 
-    /// <summary>Dueño del registro: cada usuario tiene sus propios catálogos, egresos e ingresos.</summary>
+    // Record owner: each user has their own catalogs, expense items and income items.
     [BsonRepresentation(BsonType.ObjectId)] public string UserId { get; set; } = "";
 
     [BsonRepresentation(BsonType.ObjectId)] public string ExpenseTypeId { get; set; } = "";

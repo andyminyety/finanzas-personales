@@ -5,14 +5,14 @@ using FinanzasApi.Repositories;
 
 namespace FinanzasApi.Services;
 
-/// <summary>Todos los métodos reciben el ownerId: cada usuario solo ve y modifica sus propios catálogos.</summary>
+// Every method receives the ownerId: each user only sees and changes their own catalogs.
 public interface ICatalogService
 {
     Task<List<CatalogItemResponseDto>> GetAllAsync(string ownerId, string slug, bool activeOnly);
     Task<CatalogItemResponseDto> CreateAsync(string ownerId, string slug, CatalogItemDto dto);
     Task<CatalogItemResponseDto> UpdateAsync(string ownerId, string slug, string id, CatalogItemDto dto);
     Task<CatalogItemResponseDto> SetStatusAsync(string ownerId, string slug, string id, bool isActive);
-    /// <summary>Exige que el elemento exista, sea del tipo correcto, sea DEL DUEÑO y esté activo.</summary>
+    // Requires the item to exist, have the right type, belong to the OWNER and be active.
     Task<CatalogItem> RequireAsync(string ownerId, string id, string type, string label, string? currentId = null);
 }
 
@@ -80,7 +80,7 @@ public class CatalogService : ICatalogService
     private static string ResolveType(string slug) =>
         CatalogTypes.BySlug.TryGetValue(slug, out var t) ? t : throw new AppException("Catálogo no encontrado.", 404);
 
-    /// <summary>Si el elemento es de otro usuario responde 404, como si no existiera.</summary>
+    // If the item belongs to another user it responds 404, as if it did not exist.
     private async Task<CatalogItem> Find(string ownerId, string id, string type)
     {
         var item = await _repo.GetByIdAsync(id);

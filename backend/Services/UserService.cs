@@ -48,7 +48,7 @@ public class UserService : IUserService
         };
         await _repo.CreateAsync(user);
 
-        // Cada usuario nuevo recibe sus propios catálogos iniciales (que luego puede personalizar).
+        // Each new user gets their own starter catalogs (which they can customize later).
         await _catalogs.CreateManyAsync(CatalogSeeder.StarterFor(user.Id));
         return user.ToDto();
     }
@@ -99,11 +99,11 @@ public class UserService : IUserService
         if (byEmail is not null && byEmail.Id != id)
             throw new AppException("Ese correo ya está en uso.", 409);
 
-        // El límite y el día de corte los ajusta cada usuario (son personales).
+        // Each user adjusts their own limit and cut day (they are personal).
         if (dto.ExpenseLimit.HasValue) user.ExpenseLimit = dto.ExpenseLimit.Value;
         if (dto.CutDay.HasValue) user.CutDay = dto.CutDay.Value;
 
-        // La identidad (cédula/RNC y tipo de persona) solo la cambia un administrador; para los demás se ignora.
+        // Identity (cédula/RNC and person type) can only be changed by an administrator; it is ignored for everyone else.
         if (isAdmin)
         {
             var personType = dto.PersonType ?? user.PersonType;

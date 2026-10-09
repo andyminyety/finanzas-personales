@@ -13,11 +13,16 @@ using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ----- Configuración -----
+// Hosting platforms provide the port through the PORT variable.
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
+// ----- Configuration -----
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("Mongo"));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
-// ----- Inyección de dependencias (Repositories → Services) -----
+// ----- Dependency injection (Repositories → Services) -----
 builder.Services.AddSingleton<MongoContext>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<ICatalogRepository, CatalogRepository>();
@@ -61,7 +66,7 @@ builder.Services
     });
 builder.Services.AddAuthorization();
 
-// ----- Límite de intentos de login: 10 por minuto por dirección IP (frena la fuerza bruta) -----
+// ----- Login rate limit: 10 attempts per minute per IP address (slows brute-force attacks) -----
 builder.Services.AddRateLimiter(o =>
 {
     o.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
@@ -104,7 +109,7 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Configuration.GetValue("Swagger:Enabled", false))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -121,7 +126,7 @@ app.MapGet("/api/health", async (MongoContext ctx) =>
     return Results.Ok(new { status = "MongoDB conectado" });
 });
 
-// Crea índices, el primer administrador y catálogos iniciales
+// Create indexes, the first administrator and the initial catalogs
 await DbSeeder.RunAsync(app.Services);
 
 app.Run();

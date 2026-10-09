@@ -2,11 +2,11 @@ namespace FinanzasApi.DTOs;
 
 public class ReportQuery
 {
-    /// <summary>Solo lo respeta si quien llama es administrador.</summary>
+    // Only honored when the caller is an administrator.
     public string? UserId { get; set; }
     public DateTime? From { get; set; }
     public DateTime? To { get; set; }
-    /// <summary>Solo para el resumen mensual. Por defecto, el año actual.</summary>
+    // Monthly summary only. Defaults to the current year.
     public int? Year { get; set; }
 }
 
@@ -25,13 +25,13 @@ public class ReportRowDto
     public decimal Expense { get; set; }
     public decimal Balance { get; set; }
     public int Count { get; set; }
-    /// <summary>Solo en el reporte por categoría: % del total de egresos.</summary>
+    // Category report only: percentage of total expenses.
     public decimal Percent { get; set; }
 }
 
 public class ReportDto
 {
-    /// <summary>range | by-user | by-type | by-category | monthly</summary>
+    // range | by-user | by-type | by-category | monthly
     public string Kind { get; set; } = "";
     public string Title { get; set; } = "";
     public string Scope { get; set; } = "";
@@ -40,6 +40,6 @@ public class ReportDto
     public int? Year { get; set; }
     public ReportTotalsDto Totals { get; set; } = new();
     public List<ReportRowDto> Rows { get; set; } = new();
-    /// <summary>Solo en el reporte por rango de fechas: el detalle de transacciones.</summary>
+    // Date range report only: the transaction detail.
     public List<TransactionResponseDto> Transactions { get; set; } = new();
 }

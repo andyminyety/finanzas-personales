@@ -9,7 +9,7 @@ public static class ClaimsExtensions
         user.FindFirstValue(ClaimTypes.NameIdentifier)
         ?? throw new UnauthorizedAccessException("Token inválido.");
 
-    /// <summary>Dueño de los datos: el usuario del token. Un Admin puede indicar otro con ?userId=.</summary>
+    // Data owner: the token's user. An Admin can specify another with ?userId=.
     public static string ResolveOwnerId(this ClaimsPrincipal user, string? requested) =>
         user.IsAdmin() && !string.IsNullOrEmpty(requested) ? requested : user.GetUserId();
 

@@ -3,22 +3,20 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace FinanzasApi.Models;
 
-/// <summary>
-/// Una sola colección ("catalogs") para los 4 catálogos simples del enunciado.
-/// El campo Type indica a cuál pertenece y UserId a quién pertenece.
-/// </summary>
+// A single collection ("catalogs") for the four simple catalogs.
+// The Type field says which catalog an item belongs to and UserId says who owns it.
 public class CatalogItem
 {
     [BsonId, BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
 
-    /// <summary>Dueño del registro: cada usuario tiene sus propios catálogos, egresos e ingresos.</summary>
+    // Record owner: each user has their own catalogs, expense items and income items.
     [BsonRepresentation(BsonType.ObjectId)] public string UserId { get; set; } = "";
 
     public string Type { get; set; } = "";
     public string Description { get; set; } = "";
 
-    /// <summary>Solo aplica a PaymentType: indica si exige número de tarjeta (Fase 3).</summary>
+    // Only applies to PaymentType: whether a card number is required.
     public bool RequiresCard { get; set; }
 
     public bool IsActive { get; set; } = true;
@@ -32,7 +30,7 @@ public static class CatalogTypes
     public const string ExpenseCategory = "ExpenseCategory";
     public const string PaymentType = "PaymentType";
 
-    /// <summary>Segmento de la URL → tipo interno.</summary>
+    // URL segment → internal type.
     public static readonly Dictionary<string, string> BySlug = new()
     {
         ["expense-types"] = ExpenseType,

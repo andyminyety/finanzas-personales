@@ -17,7 +17,7 @@ import type { CatalogItem, ExpenseItem } from '../types'
 const empty: ExpenseItemForm = { expenseTypeId: '', categoryId: '', defaultPaymentTypeId: '', description: '' }
 
 export default function ExpenseItems() {
-  const [owner, setOwner] = useState('') // '' = mi cuenta (solo el admin puede cambiarlo)
+  const [owner, setOwner] = useState('') // '' = my account (only an admin can change it)
   const [items, setItems] = useState<ExpenseItem[]>([])
   const [types, setTypes] = useState<CatalogItem[]>([])
   const [categories, setCategories] = useState<CatalogItem[]>([])
@@ -83,7 +83,7 @@ export default function ExpenseItems() {
     }
   }
 
-  // Solo opciones activas, más la que ya tiene el registro que se edita.
+  // Active options only, plus the one the edited record already has.
   const options = (list: CatalogItem[], current: string) =>
     list.filter((c) => c.isActive || c.id === current).map((c) => (
       <option key={c.id} value={c.id}>{c.description}</option>

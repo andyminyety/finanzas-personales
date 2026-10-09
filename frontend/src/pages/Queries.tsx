@@ -31,7 +31,7 @@ export default function Queries() {
     if (isAdmin) getUsers().then(setUsers).catch((err) => setError(getErrorMessage(err)))
   }, [isAdmin])
 
-  // Los catálogos son personales: el admin solo puede filtrar por ellos cuando elige un usuario.
+  // Catalogs are personal: the admin can only filter by them once a user is chosen.
   const catalogUser = isAdmin ? filters.userId : undefined
   useEffect(() => {
     if (isAdmin && !catalogUser) {
@@ -58,7 +58,7 @@ export default function Queries() {
     setFilters((f) => ({ ...f, [key]: value === '' ? undefined : value }))
   }
 
-  // Tipo de gasto y categoría solo aplican a egresos.
+  // Expense type and category only apply to expenses.
   const onlyIncome = filters.type === 'Income'
   const needsUser = isAdmin && !filters.userId
   const balance = (data?.totalIncome ?? 0) - (data?.totalExpense ?? 0)

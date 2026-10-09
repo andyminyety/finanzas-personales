@@ -3,11 +3,9 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace FinanzasApi.Models;
 
-/// <summary>
-/// Cierre de un período de un usuario. Es un documento "congelado": guarda los totales calculados,
-/// por lo que consultarlo después no requiere volver a sumar las transacciones.
-/// Índice único (UserId, Year, Month) → un usuario no puede tener dos cortes del mismo mes.
-/// </summary>
+// Closing of a user's period. It is a "frozen" document: it stores the calculated totals,
+// so reading it later does not require summing the transactions again.
+// Unique index (UserId, Year, Month): a user cannot have two cuts for the same month.
 public class MonthlyCut
 {
     [BsonId, BsonRepresentation(BsonType.ObjectId)]
@@ -19,7 +17,7 @@ public class MonthlyCut
     public int Year { get; set; }
     public int Month { get; set; }
 
-    /// <summary>Fecha de corte = último día del período.</summary>
+    // Cut date = last day of the period.
     public DateTime CutDate { get; set; }
     public DateTime PeriodStart { get; set; }
     public DateTime PeriodEnd { get; set; }
@@ -29,7 +27,7 @@ public class MonthlyCut
     [BsonRepresentation(BsonType.Decimal128)] public decimal TotalExpense { get; set; }
     [BsonRepresentation(BsonType.Decimal128)] public decimal FinalBalance { get; set; }
 
-    /// <summary>"Auto" (proceso diario) o "Manual" (botón).</summary>
+    // "Auto" (background process) or "Manual" (button).
     public string Source { get; set; } = "Auto";
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

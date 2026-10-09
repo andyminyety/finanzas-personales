@@ -42,7 +42,7 @@ public class TransactionService : ITransactionService
         _cuts = cuts;
     }
 
-    // ------------------------------------------------------------ consultas
+    // ------------------------------------------------------------ queries
 
     public async Task<TransactionPageDto> SearchAsync(TransactionQuery q, string currentUserId, bool isAdmin)
     {
@@ -51,7 +51,7 @@ public class TransactionService : ITransactionService
 
         var filter = new TransactionFilter
         {
-            // Regla clave: un usuario normal SIEMPRE consulta solo lo suyo, aunque mande otro userId.
+            // A regular user only queries their own transactions, even if they send another userId.
             UserId = isAdmin ? q.UserId : currentUserId,
             From = q.From?.Date is { } f ? AsUtc(f) : null,
             To = q.To?.Date is { } t ? AsUtc(t) : null,
@@ -76,11 +76,11 @@ public class TransactionService : ITransactionService
     public async Task<TransactionResponseDto> GetByIdAsync(string id, string currentUserId, bool isAdmin) =>
         ToDto(await FindAuthorized(id, currentUserId, isAdmin));
 
-    // ------------------------------------------------------------ escritura
+    // ------------------------------------------------------------ writes
 
     public async Task<TransactionResultDto> CreateAsync(CreateTransactionDto dto, string currentUserId, bool isAdmin)
     {
-        // El usuario sale del token. Solo un admin puede registrar a nombre de otro.
+        // The user comes from the token. Only an admin can record on behalf of another.
         var targetId = currentUserId;
         if (!string.IsNullOrEmpty(dto.UserId) && dto.UserId != currentUserId)
         {
@@ -116,8 +116,8 @@ public class TransactionService : ITransactionService
         if (!t.IsActive) throw new AppException("No puedes editar una transacción inhabilitada. Habilítala primero.");
 
         var newDate = ValidateDate(dto.TransactionDate);
-        await EnsureOpenPeriodAsync(t.UserId, t.TransactionDate); // la fecha actual no puede estar en un período cortado
-        await EnsureOpenPeriodAsync(t.UserId, newDate);           // ni la nueva
+        await EnsureOpenPeriodAsync(t.UserId, t.TransactionDate); // the current date cannot be in a cut period
+        await EnsureOpenPeriodAsync(t.UserId, newDate);           // nor can the new one
 
         t.TransactionDate = newDate;
         t.Amount = dto.Amount;
@@ -138,15 +138,15 @@ public class TransactionService : ITransactionService
         return ToDto(t);
     }
 
-    // ------------------------------------------------------------ reglas
+    // ------------------------------------------------------------ rules
 
-    /// <summary>Valida concepto y tipo de pago, y copia los nombres (snapshot) dentro de la transacción.</summary>
+    // Validates the concept and payment type, and copies their names (snapshot) into the transaction.
     private async Task ApplyConceptAndPayment(Transaction t, string itemId, string paymentTypeId, string? cardNumber)
     {
         var names = (await _catalogs.GetByUserAsync(t.UserId)).ToDictionary(c => c.Id, c => c.Description);
         string Name(string? id) => id is not null && names.TryGetValue(id, out var n) ? n : "—";
 
-        if (itemId != t.ItemId) // concepto nuevo o cambiado → se vuelve a copiar
+        if (itemId != t.ItemId) // new or changed concept → copy again
         {
             if (t.Type == TransactionTypes.Expense)
             {
@@ -183,20 +183,20 @@ public class TransactionService : ITransactionService
         }
 
         var digits = CedulaRncValidator.Normalize(cardNumber);
-        if (digits.Length == 0 && t.CardLast4 is not null) return; // edición: se conserva la tarjeta guardada
+        if (digits.Length == 0 && t.CardLast4 is not null) return; // editing: keep the stored card
         if (digits.Length < 4 || digits.Length > 19)
             throw new AppException("Ingresa el número de tarjeta (mínimo los últimos 4 dígitos, máximo 19).");
         t.CardLast4 = digits[^4..];
     }
 
-    /// <summary>Si es un egreso y el total del período supera el límite del usuario, devuelve una advertencia.</summary>
+    // If it is an expense and the period total exceeds the user's limit, returns a warning.
     private async Task<LimitWarningDto?> CheckLimitAsync(User user, Transaction t)
     {
         if (t.Type != TransactionTypes.Expense || !t.IsActive || user.ExpenseLimit <= 0) return null;
 
         var period = BillingPeriod.For(t.TransactionDate, user.CutDay);
 
-        // Si el usuario cambió su día de corte, el período no puede empezar antes del último corte ya hecho.
+        // If the user changed their cut day, the period cannot start before the last cut already made.
         var start = period.Start;
         var lastCut = await _cuts.GetLastAsync(user.Id);
         if (lastCut is not null && lastCut.PeriodEnd.AddDays(1) > start) start = lastCut.PeriodEnd.AddDays(1);
@@ -216,7 +216,7 @@ public class TransactionService : ITransactionService
         };
     }
 
-    /// <summary>Un período ya cortado queda congelado: no se crean, editan ni inhabilitan transacciones en él.</summary>
+    // A period that has been cut is frozen: transactions cannot be created, edited or disabled in it.
     private async Task EnsureOpenPeriodAsync(string userId, DateTime date)
     {
         var last = await _cuts.GetLastAsync(userId);
@@ -238,7 +238,7 @@ public class TransactionService : ITransactionService
     private static DateTime AsUtc(DateTime d) => DateTime.SpecifyKind(d.Date, DateTimeKind.Utc);
     private static string? Clean(string? s) => string.IsNullOrWhiteSpace(s) ? null : s.Trim();
 
-    /// <summary>Busca la transacción; si no es del usuario (y no es admin) responde 404 para no revelar que existe.</summary>
+    // Finds the transaction; if it is not the user's (and they are not admin) responds 404 so its existence is not revealed.
     private async Task<Transaction> FindAuthorized(string id, string currentUserId, bool isAdmin)
     {
         var t = await _repo.GetByIdAsync(id);

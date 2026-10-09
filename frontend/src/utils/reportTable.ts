@@ -16,8 +16,8 @@ const L = (label: string): ReportColumn => ({ label, align: 'left' })
 const R = (label: string): ReportColumn => ({ label, align: 'right' })
 
 /**
- * Convierte un reporte en una tabla de textos. La misma tabla se usa en pantalla, en el PDF y en
- * el CSV, así los tres siempre muestran exactamente lo mismo. `fmt` decide cómo se escriben los montos.
+ * Converts a report into a table of strings. The same table is used on screen, in the PDF and in
+ * the CSV, so all three always show exactly the same thing. `fmt` decides how amounts are written.
  */
 export function buildReportTable(r: Report, fmt: (n: number) => string, showUser: boolean): ReportTable {
   switch (r.kind) {
@@ -64,7 +64,7 @@ export function buildReportTable(r: Report, fmt: (n: number) => string, showUser
   }
 }
 
-/** Texto del período del reporte, para encabezados. */
+/** Period text of the report, for headings. */
 export function periodText(r: Report): string {
   if (r.kind === 'monthly') return `Año ${r.year}`
   if (r.from && r.to) return `Del ${formatDate(r.from)} al ${formatDate(r.to)}`

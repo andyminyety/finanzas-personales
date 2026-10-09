@@ -17,11 +17,11 @@ public class EvolutionPointDto
 
 public class DashboardDto
 {
-    /// <summary>Nombre del usuario mostrado, o "Todos los usuarios".</summary>
+    // Name of the user shown, or "Todos los usuarios" for all users.
     public string Scope { get; set; } = "";
     public bool IsAllUsers { get; set; }
 
-    /// <summary>Período actual: de corte del usuario, o mes calendario si se ven todos.</summary>
+    // Current period: the user's cut period, or the calendar month when viewing all users.
     public DateTime PeriodStart { get; set; }
     public DateTime PeriodEnd { get; set; }
 

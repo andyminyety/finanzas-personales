@@ -5,7 +5,7 @@ import Layout from './components/Layout'
 import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 
-// Cada página se descarga solo cuando se visita (el dashboard y los reportes cargan librerías pesadas).
+// Each page is downloaded only when visited (the dashboard and reports load heavy libraries).
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Transactions = lazy(() => import('./pages/Transactions'))
 const Queries = lazy(() => import('./pages/Queries'))

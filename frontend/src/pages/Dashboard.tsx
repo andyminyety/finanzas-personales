@@ -57,7 +57,7 @@ function Breakdown({ data }: { data: NameAmount[] }) {
 
 export default function Dashboard() {
   const { user, isAdmin } = useAuth()
-  const [target, setTarget] = useState('') // '' = yo · 'all' · id
+  const [target, setTarget] = useState('') // '' = me · 'all' · user id
   const [users, setUsers] = useState<User[]>([])
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)

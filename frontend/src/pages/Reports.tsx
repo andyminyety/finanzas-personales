@@ -46,7 +46,7 @@ export default function Reports() {
   const update = <K extends keyof ReportFilters>(key: K, value: ReportFilters[K] | '') =>
     setFilters((f) => ({ ...f, [key]: value === '' ? undefined : value }))
 
-  // En "por usuario" el filtro de usuario no tiene sentido; en "mensual" se usa año en vez de fechas.
+  // In "by user" the user filter makes no sense; "monthly" uses a year instead of dates.
   const showUserFilter = isAdmin && kind !== 'by-user'
   const showUserColumn = isAdmin && !filters.userId
   const table = useMemo(() => (report ? buildReportTable(report, money, showUserColumn) : null), [report, showUserColumn])

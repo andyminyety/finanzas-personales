@@ -2,10 +2,8 @@ using FinanzasApi.Models;
 
 namespace FinanzasApi.Services;
 
-/// <summary>
-/// Catálogos de arranque que recibe cada usuario nuevo para no empezar con todo vacío.
-/// Son suyos: puede editarlos, inhabilitarlos o agregar más.
-/// </summary>
+// Starter catalogs every new user receives so they do not start empty.
+// They are the user's own: they can edit them, disable them or add more.
 public static class CatalogSeeder
 {
     public static List<CatalogItem> StarterFor(string userId)

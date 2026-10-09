@@ -9,7 +9,7 @@ public class CounterRepository : ICounterRepository
     private readonly IMongoCollection<Counter> _col;
     public CounterRepository(MongoContext ctx) => _col = ctx.Database.GetCollection<Counter>("counters");
 
-    /// <summary>Incrementa y devuelve el siguiente número de forma atómica.</summary>
+    // Atomically increments and returns the next number.
     public async Task<long> NextAsync(string name)
     {
         var counter = await _col.FindOneAndUpdateAsync<Counter>(

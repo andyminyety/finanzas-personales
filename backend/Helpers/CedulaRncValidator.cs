@@ -1,9 +1,7 @@
 namespace FinanzasApi.Helpers;
 
-/// <summary>
-/// Valida cédula (11 dígitos) y RNC (9 dígitos) dominicanos con el algoritmo oficial
-/// del dígito verificador. No consulta a la DGII/JCE (no existe API pública oficial).
-/// </summary>
+// Validates Dominican cédula (11 digits) and RNC (9 digits) using the official
+// check-digit algorithm. It does not query DGII/JCE (there is no official public API).
 public static class CedulaRncValidator
 {
     public static string Normalize(string? value) =>
@@ -39,7 +37,7 @@ public static class CedulaRncValidator
         return check == d[8] - '0';
     }
 
-    /// <summary>Física → cédula; Jurídica → RNC. Devuelve null si es válido.</summary>
+    // Individual → cédula; legal entity → RNC. Returns null when valid.
     public static string? Validate(string personType, string? value)
     {
         if (personType == Models.PersonTypes.Fisica)

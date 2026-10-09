@@ -23,7 +23,7 @@ public class ExceptionMiddleware
         }
         catch (FormatException)
         {
-            // Ocurre cuando llega un id que no tiene formato de ObjectId de MongoDB.
+            // Raised when an id does not have a valid MongoDB ObjectId format.
             await Write(ctx, 400, "Uno de los identificadores enviados no tiene un formato válido.");
         }
         catch (Exception ex)

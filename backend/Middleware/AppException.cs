@@ -1,6 +1,6 @@
 namespace FinanzasApi.Middleware;
 
-/// <summary>Error de negocio controlado: se convierte en una respuesta HTTP con mensaje.</summary>
+// Handled business error: converted into an HTTP response with a message.
 public class AppException : Exception
 {
     public int StatusCode { get; }

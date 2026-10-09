@@ -1,7 +1,7 @@
 import api from './axios'
 import type { CatalogItem, CatalogSlug } from '../types'
 
-// userId solo lo respeta el servidor si quien llama es administrador (para gestionar los datos de otro usuario).
+// The server only honors userId when the caller is an administrator (to manage another user's data).
 const q = (userId?: string) => (userId ? { params: { userId } } : undefined)
 
 export const getCatalog = (slug: CatalogSlug, userId?: string) =>

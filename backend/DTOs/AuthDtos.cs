@@ -4,7 +4,7 @@ namespace FinanzasApi.DTOs;
 
 public class LoginDto
 {
-    [Required] public string Identifier { get; set; } = "";   // correo o cédula/RNC
+    [Required] public string Identifier { get; set; } = "";   // email or cédula/RNC
     [Required] public string Password { get; set; } = "";
 }
 

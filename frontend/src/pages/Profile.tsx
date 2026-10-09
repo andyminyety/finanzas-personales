@@ -32,7 +32,7 @@ export default function Profile() {
     try {
       const updated = await updateProfile({
         name, email,
-        // El límite y el día de corte los ajusta cualquier usuario; la identidad solo un administrador.
+        // Any user can adjust their limit and cut day; identity fields only an administrator.
         expenseLimit: limit,
         cutDay,
         ...(isAdmin ? { personType, cedulaRnc } : {}),
@@ -121,7 +121,8 @@ export default function Profile() {
             </Field>
           </div>
           <p className="-mt-2 text-xs text-muted">
-            Establece tu límite mensual según tus gastos y necesidades.
+            Ajústalos a tu vida: el límite ({money(limit)}) activa el aviso al gastar de más, y el día de corte
+            cierra cada período. Si cambias el día de corte, aplica a los próximos cortes; los ya generados no cambian.
           </p>
 
           <ErrorBox message={profileMsg.err} />

@@ -13,16 +13,16 @@ public class User
     public string Email { get; set; } = "";
     public string PasswordHash { get; set; } = "";
 
-    /// <summary>"Admin" o "User"</summary>
+    // "Admin" or "User"
     public string Role { get; set; } = Roles.User;
 
-    /// <summary>"Fisica" o "Juridica"</summary>
+    // "Fisica" (individual) or "Juridica" (legal entity)
     public string PersonType { get; set; } = PersonTypes.Fisica;
 
     [BsonRepresentation(BsonType.Decimal128)]
     public decimal ExpenseLimit { get; set; }
 
-    /// <summary>Día del mes (1-28) en que se hace el corte.</summary>
+    // Day of the month (1-28) on which the cut is made.
     public int CutDay { get; set; } = 1;
 
     public bool IsActive { get; set; } = true;

@@ -6,10 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinanzasApi.Controllers;
 
-/// <summary>
-/// {type}: expense-types | income-types | categories | payment-types.
-/// Cada usuario gestiona los SUYOS. Un administrador puede indicar ?userId= para gestionar los de otro usuario.
-/// </summary>
+// {type}: expense-types | income-types | categories | payment-types.
+// Each user manages their own. An administrator can pass ?userId= to manage another user's.
 [ApiController]
 [Route("api/catalogs/{type}")]
 [Authorize]

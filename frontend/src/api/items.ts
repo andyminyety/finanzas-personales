@@ -13,7 +13,7 @@ export interface IncomeItemForm {
   source: string
 }
 
-// userId solo lo respeta el servidor si quien llama es administrador.
+// The server only honors userId when the caller is an administrator.
 const q = (userId?: string) => (userId ? { params: { userId } } : undefined)
 
 export const getExpenseItems = (userId?: string) => api.get<ExpenseItem[]>('/expense-items', q(userId)).then((r) => r.data)

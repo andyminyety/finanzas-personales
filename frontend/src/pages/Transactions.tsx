@@ -62,8 +62,8 @@ export default function Transactions() {
     if (isAdmin) getUsers().then(setUsers).catch((err) => setPageError(getErrorMessage(err)))
   }, [isAdmin])
 
-  // Los conceptos y tipos de pago son personales: se cargan los del usuario al que se le registra.
-  // (Un usuario normal siempre recibe los suyos; el servidor ignora el parámetro.)
+  // Concepts and payment types are personal: load the ones of the user being recorded.
+  // (A regular user always gets their own; the server ignores the parameter.)
   const ownerId = isAdmin ? form.userId : undefined
   useEffect(() => {
     Promise.all([getExpenseItems(ownerId), getIncomeItems(ownerId), getCatalog('payment-types', ownerId)])
@@ -89,7 +89,7 @@ export default function Transactions() {
   const changeType = (type: TransactionForm['type']) =>
     setForm((f) => ({ ...f, type, itemId: '', paymentTypeId: '', cardNumber: '' }))
 
-  // Al elegir un egreso, se propone su tipo de pago por defecto.
+  // When an expense is chosen, its default payment type is suggested.
   const changeItem = (itemId: string) => {
     const exp = form.type === 'Expense' ? expenseItems.find((i) => i.id === itemId) : undefined
     setForm((f) => ({ ...f, itemId, paymentTypeId: exp?.defaultPaymentTypeId ?? f.paymentTypeId, cardNumber: '' }))

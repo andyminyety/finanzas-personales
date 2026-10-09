@@ -26,7 +26,7 @@ api.interceptors.response.use(
   },
 )
 
-/** Extrae un mensaje legible de cualquier error de la API. */
+/** Extracts a readable message from any API error. */
 export function getErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
     if (!error.response) return 'No se pudo conectar con el servidor.'

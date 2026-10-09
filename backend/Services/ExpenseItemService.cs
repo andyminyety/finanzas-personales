@@ -74,7 +74,7 @@ public class ExpenseItemService : IExpenseItemService
 
     private async Task ValidateAsync(string ownerId, ExpenseItemDto dto, ExpenseItem? current)
     {
-        // RequireAsync también comprueba que cada catálogo elegido pertenezca a este mismo usuario.
+        // RequireAsync also checks that each chosen catalog belongs to this same user.
         await _catalogService.RequireAsync(ownerId, dto.ExpenseTypeId, CatalogTypes.ExpenseType, "El tipo de egreso", current?.ExpenseTypeId);
         await _catalogService.RequireAsync(ownerId, dto.CategoryId, CatalogTypes.ExpenseCategory, "El renglón", current?.CategoryId);
         await _catalogService.RequireAsync(ownerId, dto.DefaultPaymentTypeId, CatalogTypes.PaymentType, "El tipo de pago", current?.DefaultPaymentTypeId);

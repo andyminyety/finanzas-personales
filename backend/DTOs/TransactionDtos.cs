@@ -6,7 +6,7 @@ public class CreateTransactionDto
 {
     [Required, RegularExpression("Income|Expense")] public string Type { get; set; } = "Expense";
 
-    /// <summary>Solo lo respeta si quien llama es administrador. Si no, se usa el usuario del token.</summary>
+    // Only honored when the caller is an administrator. Otherwise the token's user is used.
     public string? UserId { get; set; }
 
     [Required] public string ItemId { get; set; } = "";
@@ -88,7 +88,7 @@ public class TransactionPageDto
     public long Total { get; set; }
     public int Page { get; set; }
     public int PageSize { get; set; }
-    /// <summary>Totales de TODAS las transacciones activas que cumplen el filtro (no solo la página).</summary>
+    // Totals of ALL active transactions matching the filter (not just the page).
     public decimal TotalIncome { get; set; }
     public decimal TotalExpense { get; set; }
 }

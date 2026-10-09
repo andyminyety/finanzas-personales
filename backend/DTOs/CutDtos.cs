@@ -25,7 +25,7 @@ public class CutQuery
 
 public class RunCutsDto
 {
-    /// <summary>Solo admin: cortar a un usuario específico. Vacío = todos los usuarios activos.</summary>
+    // Admin only: cut a specific user. Empty = all active users.
     public string? UserId { get; set; }
 }
 

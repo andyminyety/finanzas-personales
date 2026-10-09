@@ -11,7 +11,7 @@ public interface ICutService
 {
     Task<List<CutResponseDto>> SearchAsync(CutQuery query, string currentUserId, bool isAdmin);
     Task<RunCutsResultDto> RunManualAsync(RunCutsDto dto, string currentUserId, bool isAdmin);
-    /// <summary>Lo llama el proceso diario: corta a todos los usuarios activos. Devuelve cuántos cortes creó.</summary>
+    // Called by the background process: cuts every active user. Returns how many cuts were created.
     Task<int> RunAutomaticAsync();
 }
 
@@ -78,24 +78,22 @@ public class CutService : ICutService
             }
             catch (Exception ex)
             {
-                // Un usuario con problemas no debe impedir el corte de los demás.
+                // One failing user must not prevent the others from being cut.
                 _logger.LogError(ex, "Falló el corte automático del usuario {UserId}", u.Id);
             }
         }
         return total;
     }
 
-    /// <summary>
-    /// Genera todos los cortes pendientes de un usuario, en orden, hasta el último período YA TERMINADO
-    /// (el que termina ayer o antes). Es idempotente: si no hay nada pendiente, no hace nada.
-    /// El primer corte de un usuario incluye todas sus transacciones anteriores (balance inicial 0).
-    /// </summary>
+    // Generates all of a user's pending cuts, in order, up to the last period that has ALREADY ENDED
+    // (the one ending yesterday or earlier). Idempotent: if nothing is pending, it does nothing.
+    // A user's first cut includes all earlier transactions (initial balance 0).
     private async Task<List<MonthlyCut>> CatchUpAsync(User user, string source)
     {
         var created = new List<MonthlyCut>();
         var cutoff = AppClock.Today.AddDays(-1);
 
-        for (var i = 0; i < 36; i++) // tope de seguridad
+        for (var i = 0; i < 36; i++) // safety limit
         {
             var last = await _cuts.GetLastAsync(user.Id);
             var first = last is null;
@@ -106,13 +104,13 @@ public class CutService : ICutService
                 var p = BillingPeriod.For(cutoff, user.CutDay);
                 if (p.End > cutoff) p = BillingPeriod.For(p.Start.AddDays(-1), user.CutDay);
                 (start, end) = (p.Start, p.End);
-                if (user.CreatedAt.Date > end) break; // usuario creado después: aún no hay nada que cortar
+                if (user.CreatedAt.Date > end) break; // user created later: nothing to cut yet
             }
             else
             {
                 start = last!.PeriodEnd.AddDays(1);
                 end = BillingPeriod.For(start, user.CutDay).End;
-                if (end > cutoff) break; // ese período todavía no termina
+                if (end > cutoff) break; // that period has not ended yet
             }
 
             var from = first ? Epoch : start;
@@ -143,7 +141,7 @@ public class CutService : ICutService
             }
             catch (MongoWriteException ex) when (ex.WriteError.Category == ServerErrorCategory.DuplicateKey)
             {
-                break; // otro proceso (auto/manual) ya lo creó: el índice único evita duplicados
+                break; // another process (auto/manual) already created it: the unique index prevents duplicates
             }
         }
         return created;

@@ -8,7 +8,7 @@ const INK: [number, number, number] = [22, 33, 31]
 const MUTED: [number, number, number] = [107, 119, 115]
 
 export function buildReportPdf(report: Report, table: ReportTable, fmt: (n: number) => string, period: string) {
-  // El detalle de transacciones tiene muchas columnas: se imprime horizontal.
+  // The transaction detail has many columns, so it is printed in landscape.
   const doc = new jsPDF({ orientation: report.kind === 'range' ? 'landscape' : 'portrait', unit: 'mm', format: 'a4' })
   const pageW = doc.internal.pageSize.getWidth()
   const margin = 14
@@ -21,7 +21,7 @@ export function buildReportPdf(report: Report, table: ReportTable, fmt: (n: numb
   doc.text(`Período: ${period}`, margin, 32)
   doc.text(`Generado: ${new Date().toLocaleString('es-DO')}`, pageW - margin, 27, { align: 'right' })
 
-  // Resumen en tres recuadros
+  // Summary in three boxes
   const boxes: [string, number][] = [
     ['Ingresos', report.totals.income],
     ['Egresos', report.totals.expense],
@@ -55,7 +55,7 @@ export function buildReportPdf(report: Report, table: ReportTable, fmt: (n: numb
     alternateRowStyles: { fillColor: [250, 251, 249] },
     columnStyles: numeric,
     didParseCell: (d) => {
-      // Alinea a la derecha también los encabezados y pies de las columnas numéricas.
+      // Also right-align headers and footers of numeric columns.
       if (d.section !== 'body' && table.columns[d.column.index]?.align === 'right') d.cell.styles.halign = 'right'
     },
     margin: { left: margin, right: margin },

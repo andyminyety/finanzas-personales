@@ -2,11 +2,9 @@ using FinanzasApi.Services;
 
 namespace FinanzasApi.BackgroundJobs;
 
-/// <summary>
-/// Corte automático. Cada 6 horas revisa si algún usuario tiene un período terminado sin cortar
-/// y lo corta. Como el corte es idempotente (índice único), revisar varias veces al día es seguro
-/// y además recupera cortes perdidos si la API estuvo apagada.
-/// </summary>
+// Automatic cut. Every 6 hours it checks whether any user has an ended period without a cut
+// and creates it. Since the cut is idempotent (unique index), checking several times a day is safe
+// and it also recovers missed cuts if the API was down.
 public class MonthlyCutWorker : BackgroundService
 {
     private static readonly TimeSpan Interval = TimeSpan.FromHours(6);
@@ -30,7 +28,7 @@ public class MonthlyCutWorker : BackgroundService
             return;
         }
 
-        try { await Task.Delay(TimeSpan.FromSeconds(20), stoppingToken); } // deja arrancar la API
+        try { await Task.Delay(TimeSpan.FromSeconds(20), stoppingToken); } // let the API finish starting
         catch (OperationCanceledException) { return; }
 
         while (!stoppingToken.IsCancellationRequested)

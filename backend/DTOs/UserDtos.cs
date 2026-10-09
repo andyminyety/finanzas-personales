@@ -48,11 +48,11 @@ public class UpdateProfileDto
     [Required, StringLength(120, MinimumLength = 2)] public string Name { get; set; } = "";
     [Required, EmailAddress] public string Email { get; set; } = "";
 
-    // Personales: los aplica cualquier usuario sobre su propio perfil.
+    // Personal: any user can apply these to their own profile.
     [Range(0, double.MaxValue)] public decimal? ExpenseLimit { get; set; }
     [Range(1, 28)] public int? CutDay { get; set; }
 
-    // Identidad: solo los aplica un administrador; para usuarios normales se ignoran.
+    // Identity: only applied for administrators; ignored for regular users.
     [RegularExpression("Fisica|Juridica")] public string? PersonType { get; set; }
     public string? CedulaRnc { get; set; }
 }

@@ -9,7 +9,7 @@ export const getProfile = () => api.get<User>('/profile').then((r) => r.data)
 export interface ProfileForm {
   name: string
   email: string
-  // Solo se envían si quien edita es administrador; el servidor los ignora para usuarios normales.
+  // Only sent when the editor is an administrator; the server ignores them for regular users.
   personType?: 'Fisica' | 'Juridica'
   cedulaRnc?: string
   expenseLimit?: number

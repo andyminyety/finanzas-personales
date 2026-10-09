@@ -6,11 +6,11 @@ import type { User } from '../types'
 import { inputClass } from './Field'
 
 interface Props {
-  value: string // '' = mi cuenta
+  value: string // '' = my account
   onChange: (userId: string) => void
 }
 
-/** Solo para administradores: permite gestionar los catálogos/egresos/ingresos de otro usuario. */
+/** Administrators only: lets them manage another user's catalogs, expense items and income items. */
 export default function OwnerSelect({ value, onChange }: Props) {
   const { user, isAdmin } = useAuth()
   const [users, setUsers] = useState<User[]>([])

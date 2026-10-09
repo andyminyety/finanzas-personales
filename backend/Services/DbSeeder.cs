@@ -3,7 +3,7 @@ using FinanzasApi.Repositories;
 
 namespace FinanzasApi.Services;
 
-/// <summary>Crea índices, el primer administrador y los catálogos iniciales de cada usuario que aún no tenga.</summary>
+// Creates indexes, the first administrator and the initial catalogs for every user that has none.
 public static class DbSeeder
 {
     public static async Task RunAsync(IServiceProvider services)
@@ -35,7 +35,7 @@ public static class DbSeeder
             });
         }
 
-        // Cada usuario tiene sus propios catálogos: se crean los de arranque para quien no tenga ninguno.
+        // Each user has their own catalogs: starter ones are created for anyone without any.
         foreach (var u in await users.GetAllAsync())
         {
             if (!await catalogs.AnyForUserAsync(u.Id))

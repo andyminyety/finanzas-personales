@@ -13,7 +13,7 @@ export interface TransactionForm {
 }
 
 export const getTransactions = (filters: TransactionFilters) => {
-  // Se omiten los filtros vacíos para no enviar ?type=&categoryId=...
+  // Empty filters are omitted so we do not send ?type=&categoryId=...
   const params = Object.fromEntries(
     Object.entries(filters).filter(([, v]) => v !== undefined && v !== ''),
   )

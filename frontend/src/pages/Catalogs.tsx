@@ -20,7 +20,7 @@ const TABS: { slug: CatalogSlug; label: string; singular: string }[] = [
 
 export default function Catalogs() {
   const [tab, setTab] = useState(TABS[0])
-  const [owner, setOwner] = useState('') // '' = mi cuenta (solo el admin puede cambiarlo)
+  const [owner, setOwner] = useState('') // '' = my account (only an admin can change it)
   const [items, setItems] = useState<CatalogItem[]>([])
   const [loading, setLoading] = useState(true)
   const [pageError, setPageError] = useState('')

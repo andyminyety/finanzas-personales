@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinanzasApi.Controllers;
 
-/// <summary>kind: range | by-user | by-type | by-category | monthly. Usuario normal: solo lo suyo; admin: todo.</summary>
+// kind: range | by-user | by-type | by-category | monthly. Regular user: own data only; admin: everything.
 [ApiController]
 [Route("api/reports/{kind}")]
 [Authorize]

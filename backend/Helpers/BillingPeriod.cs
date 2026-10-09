@@ -1,10 +1,8 @@
 namespace FinanzasApi.Helpers;
 
-/// <summary>
-/// Período de corte de un usuario. Con día de corte C, cada período va del día C+1 del mes
-/// anterior hasta el día C del mes siguiente (ambos inclusive). Se identifica con el año y mes
-/// en que termina. Ej.: corte día 15 → el período "octubre" va del 16-sep al 15-oct.
-/// </summary>
+// A user's cut period. With cut day C, each period runs from day C+1 of the previous month
+// through day C of the following month (both inclusive). It is identified by the year and month
+// in which it ends. E.g. cut day 15 → the "October" period runs from Sep 16 to Oct 15.
 public readonly record struct BillingPeriod(DateTime Start, DateTime End, int Year, int Month)
 {
     public static BillingPeriod For(DateTime date, int cutDay)

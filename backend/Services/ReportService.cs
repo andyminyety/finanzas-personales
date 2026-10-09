@@ -29,7 +29,7 @@ public class ReportService : IReportService
         if (kind is not ("range" or "by-user" or "by-type" or "by-category" or "monthly"))
             throw new AppException("Reporte no encontrado.", 404);
 
-        // Regla clave: un usuario normal SIEMPRE obtiene solo sus datos, aunque mande otro userId.
+        // A regular user only gets their own data, even if they send another userId.
         var userId = isAdmin ? (string.IsNullOrEmpty(q.UserId) ? null : q.UserId) : currentUserId;
 
         var filter = new TransactionFilter { UserId = userId, IsActive = true };
