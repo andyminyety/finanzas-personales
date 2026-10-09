@@ -7,3 +7,4 @@ dist/
 .vscode/
 *.user
 appsettings.Development.json
+appsettings.json
