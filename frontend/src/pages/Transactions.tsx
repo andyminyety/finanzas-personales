@@ -143,7 +143,7 @@ export default function Transactions() {
             <p className="font-bold">Límite de egresos superado ({warning.percent}%)</p>
             <p>{warning.message}</p>
           </div>
-          <button onClick={() => setWarning(null)} aria-label="Cerrar aviso" className="rounded p-1 hover:bg-white/50">
+          <button onClick={() => setWarning(null)} aria-label="Cerrar aviso" className="rounded p-1 hover:bg-ink/10">
             <X size={16} />
           </button>
         </div>
@@ -169,7 +169,7 @@ export default function Transactions() {
                 {(['Expense', 'Income'] as const).map((t) => (
                   <button type="button" key={t} role="radio" aria-checked={form.type === t} onClick={() => changeType(t)}
                     className={`rounded-md py-2 text-sm font-bold ${
-                      form.type === t ? 'bg-white shadow-sm ' + (t === 'Income' ? 'text-brand-dark' : 'text-danger') : 'text-muted'}`}>
+                      form.type === t ? 'bg-surface shadow-sm ' + (t === 'Income' ? 'text-brand-text' : 'text-danger') : 'text-muted'}`}>
                     {t === 'Expense' ? 'Egreso' : 'Ingreso'}
                   </button>
                 ))}

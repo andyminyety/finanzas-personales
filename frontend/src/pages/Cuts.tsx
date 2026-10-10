@@ -64,7 +64,7 @@ export default function Cuts() {
       <PageHeader title="Cortes mensuales"
         subtitle="Cierran cada período con sus totales. Se generan solos al terminar el período; aquí puedes generarlos ahora." />
 
-      <section className="mb-4 flex flex-wrap items-end gap-3 rounded-xl border border-line bg-white p-4" aria-label="Generar corte">
+      <section className="mb-4 flex flex-wrap items-end gap-3 rounded-xl border border-line bg-surface p-4" aria-label="Generar corte">
         {isAdmin && (
           <div className="min-w-48">
             <label htmlFor="run-user" className="mb-1 block text-xs font-semibold text-muted">Generar corte para</label>
@@ -87,7 +87,7 @@ export default function Cuts() {
       </section>
 
       {result && (
-        <div role="status" className="mb-4 flex items-center gap-2 rounded-lg bg-brand-soft px-4 py-3 text-sm font-medium text-brand-dark">
+        <div role="status" className="mb-4 flex items-center gap-2 rounded-lg bg-brand-soft px-4 py-3 text-sm font-medium text-brand-text">
           <CheckCircle2 size={18} /> {result.message}
         </div>
       )}
@@ -113,7 +113,7 @@ export default function Cuts() {
 
       <ErrorBox message={error} />
 
-      <div className="mt-3 overflow-x-auto rounded-xl border border-line bg-white">
+      <div className="mt-3 overflow-x-auto rounded-xl border border-line bg-surface">
         <table className="w-full min-w-[820px] text-left text-sm">
           <thead className="border-b border-line text-muted">
             <tr>{headers.map((h) => <th key={h} className="px-4 py-3 font-semibold">{h}</th>)}</tr>
@@ -135,7 +135,7 @@ export default function Cuts() {
                 {isAdmin && <td className="px-4 py-3">{c.userName}</td>}
                 <td className="whitespace-nowrap px-4 py-3">{formatDate(c.cutDate)}</td>
                 <td className="whitespace-nowrap px-4 py-3">{money(c.initialBalance)}</td>
-                <td className="whitespace-nowrap px-4 py-3 text-brand-dark">{money(c.totalIncome)}</td>
+                <td className="whitespace-nowrap px-4 py-3 text-brand-text">{money(c.totalIncome)}</td>
                 <td className="whitespace-nowrap px-4 py-3 text-danger">{money(c.totalExpense)}</td>
                 <td className={`whitespace-nowrap px-4 py-3 font-bold ${c.finalBalance < 0 ? 'text-danger' : ''}`}>
                   {money(c.finalBalance)}

@@ -15,7 +15,7 @@ interface Props {
 export default function TransactionTable({ rows, loading, showUser, emptyText, actions }: Props) {
   const headers = ['N.º', 'Fecha', 'Concepto', ...(showUser ? ['Usuario'] : []), 'Pago', 'Monto', 'Estado', ...(actions ? [''] : [])]
   return (
-    <div className="overflow-x-auto rounded-xl border border-line bg-white">
+    <div className="overflow-x-auto rounded-xl border border-line bg-surface">
       <table className="w-full min-w-[820px] text-left text-sm">
         <thead className="border-b border-line text-muted">
           <tr>{headers.map((h, i) => <th key={i} className="px-4 py-3 font-semibold">{h}</th>)}</tr>
@@ -36,7 +36,7 @@ export default function TransactionTable({ rows, loading, showUser, emptyText, a
                 <td className="px-4 py-3">
                   <p className="flex items-center gap-1.5 font-semibold">
                     {income
-                      ? <ArrowUpRight size={15} className="text-brand" aria-label="Ingreso" />
+                      ? <ArrowUpRight size={15} className="text-brand-fg" aria-label="Ingreso" />
                       : <ArrowDownRight size={15} className="text-danger" aria-label="Egreso" />}
                     {t.itemDescription}
                   </p>
@@ -50,7 +50,7 @@ export default function TransactionTable({ rows, loading, showUser, emptyText, a
                   {t.paymentTypeName}
                   {t.cardLast4 && <span className="text-xs text-muted"> ····{t.cardLast4}</span>}
                 </td>
-                <td className={`whitespace-nowrap px-4 py-3 font-bold ${income ? 'text-brand-dark' : 'text-danger'}`}>
+                <td className={`whitespace-nowrap px-4 py-3 font-bold ${income ? 'text-brand-text' : 'text-danger'}`}>
                   {income ? '+' : '−'}{money(t.amount)}
                 </td>
                 <td className="px-4 py-3"><Badge active={t.isActive} /></td>

@@ -1,6 +1,8 @@
-import { ArrowLeftRight, CalendarCheck, FileBarChart, LayoutDashboard, ListChecks, LogOut, Search, TrendingDown, TrendingUp, UserCircle, Users, Wallet, type LucideIcon } from 'lucide-react'
+import { ArrowLeftRight, CalendarCheck, FileBarChart, LayoutDashboard, ListChecks, LogOut, Search, TrendingDown, TrendingUp, UserCircle, Users, type LucideIcon } from 'lucide-react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import Logo from './Logo'
+import ThemeToggle from './ThemeToggle'
 
 interface NavItem {
   to: string
@@ -35,16 +37,14 @@ export default function Layout() {
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${
-      isActive ? 'bg-brand-soft text-brand-dark' : 'text-muted hover:bg-paper hover:text-ink'
+      isActive ? 'bg-brand-soft text-brand-text' : 'text-muted hover:bg-paper hover:text-ink'
     }`
 
   return (
     <div className="min-h-screen md:flex">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-line bg-white p-4 md:flex">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-line bg-surface p-4 md:flex">
         <div className="mb-8 flex items-center gap-2.5 px-2 pt-2">
-          <span className="grid size-9 place-items-center rounded-lg bg-brand text-white">
-            <Wallet size={18} />
-          </span>
+          <Logo className="size-9" />
           <span className="text-base font-extrabold tracking-tight">Finanzas</span>
         </div>
 
@@ -60,6 +60,7 @@ export default function Layout() {
         <div className="border-t border-line pt-4">
           <p className="truncate px-2 text-sm font-semibold">{user?.name}</p>
           <p className="mb-3 truncate px-2 text-xs text-muted">{isAdmin ? 'Administrador' : 'Usuario'}</p>
+          <ThemeToggle showLabel />
           <button onClick={onLogout}
             className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-muted hover:bg-danger-soft hover:text-danger">
             <LogOut size={18} />
@@ -69,18 +70,19 @@ export default function Layout() {
       </aside>
 
       {/* Top bar on mobile */}
-      <header className="flex items-center justify-between border-b border-line bg-white px-4 py-3 md:hidden">
+      <header className="flex items-center justify-between border-b border-line bg-surface px-4 py-3 md:hidden">
         <span className="flex items-center gap-2 font-extrabold">
-          <Wallet size={18} className="text-brand" /> <span className="hidden sm:inline">Finanzas</span>
+          <Logo className="size-7" /> <span className="hidden sm:inline">Finanzas</span>
         </span>
         <nav className="flex items-center overflow-x-auto">
           {items.map(({ to, label, icon: Icon }) => (
             <NavLink key={to} to={to} end={to === '/'} aria-label={label}
               className={({ isActive }) =>
-                `rounded-lg p-2 ${isActive ? 'bg-brand-soft text-brand-dark' : 'text-muted'}`}>
+                `rounded-lg p-2 ${isActive ? 'bg-brand-soft text-brand-text' : 'text-muted'}`}>
               <Icon size={20} />
             </NavLink>
           ))}
+          <ThemeToggle />
           <button onClick={onLogout} aria-label="Cerrar sesión" className="rounded-lg p-2 text-muted">
             <LogOut size={20} />
           </button>

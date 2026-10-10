@@ -97,7 +97,7 @@ export default function Users() {
 
       <ErrorBox message={pageError} />
 
-      <div className="mt-4 overflow-x-auto rounded-xl border border-line bg-white">
+      <div className="mt-4 overflow-x-auto rounded-xl border border-line bg-surface">
         <table className="w-full min-w-[760px] text-left text-sm">
           <thead className="border-b border-line text-muted">
             <tr>
@@ -138,7 +138,7 @@ export default function Users() {
                       title={u.isActive ? 'Inhabilitar' : 'Habilitar'}
                       className={`rounded-md p-2 disabled:opacity-30 ${
                         u.isActive ? 'text-muted hover:bg-danger-soft hover:text-danger'
-                                   : 'text-muted hover:bg-brand-soft hover:text-brand'}`}>
+                                   : 'text-muted hover:bg-brand-soft hover:text-brand-fg'}`}>
                       <Power size={16} />
                     </button>
                   </div>

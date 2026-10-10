@@ -17,7 +17,7 @@ export default function RowActions({ name, isActive, onEdit, onToggle }: Props) 
       <button onClick={onToggle} aria-label={`${isActive ? 'Inhabilitar' : 'Habilitar'} ${name}`}
         title={isActive ? 'Inhabilitar' : 'Habilitar'}
         className={`rounded-md p-2 text-muted ${
-          isActive ? 'hover:bg-danger-soft hover:text-danger' : 'hover:bg-brand-soft hover:text-brand'}`}>
+          isActive ? 'hover:bg-danger-soft hover:text-danger' : 'hover:bg-brand-soft hover:text-brand-fg'}`}>
         <Power size={16} />
       </button>
     </div>

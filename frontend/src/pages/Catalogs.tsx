@@ -93,7 +93,7 @@ export default function Catalogs() {
         {TABS.map((t) => (
           <button key={t.slug} role="tab" aria-selected={t.slug === tab.slug} onClick={() => setTab(t)}
             className={`-mb-px whitespace-nowrap border-b-2 px-4 py-2 text-sm font-semibold ${
-              t.slug === tab.slug ? 'border-brand text-brand-dark' : 'border-transparent text-muted hover:text-ink'}`}>
+              t.slug === tab.slug ? 'border-brand text-brand-text' : 'border-transparent text-muted hover:text-ink'}`}>
             {t.label}
           </button>
         ))}
@@ -101,7 +101,7 @@ export default function Catalogs() {
 
       <ErrorBox message={pageError} />
 
-      <div className="mt-4 overflow-x-auto rounded-xl border border-line bg-white">
+      <div className="mt-4 overflow-x-auto rounded-xl border border-line bg-surface">
         <table className="w-full min-w-[480px] text-left text-sm">
           <thead className="border-b border-line text-muted">
             <tr>

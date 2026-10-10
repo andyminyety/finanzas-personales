@@ -1,27 +1,70 @@
 @import "tailwindcss";
 
-@theme {
+/* Color tokens. Light is the default; dark overrides them via data-theme on <html>. */
+:root {
+  --c-paper: #f5f6f3;
+  --c-surface: #ffffff;
+  --c-ink: #16211f;
+  --c-muted: #6b7773;
+  --c-line: #e3e7e3;
+  --c-brand: #0e6b5c;
+  --c-brand-dark: #0a5246;
+  --c-brand-soft: #e2f0ed;
+  --c-brand-text: #0a5246;
+  --c-brand-fg: #0e6b5c;
+  --c-danger: #b4443a;
+  --c-danger-soft: #f8e6e4;
+  --c-warn: #8a5a00;
+  --c-warn-soft: #fbf0d6;
+  --c-amber: #d6a24a;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --c-paper: #0e1413;
+  --c-surface: #162120;
+  --c-ink: #e6eeec;
+  --c-muted: #93a39e;
+  --c-line: #263431;
+  --c-brand: #14806d;
+  --c-brand-dark: #0a5246;
+  --c-brand-soft: #17332e;
+  --c-brand-text: #7fd9c4;
+  --c-brand-fg: #4cc3a9;
+  --c-danger: #f0877b;
+  --c-danger-soft: #3b1f1c;
+  --c-warn: #f0c36b;
+  --c-warn-soft: #36290f;
+  --c-amber: #e0b65e;
+  color-scheme: dark;
+}
+
+@theme inline {
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --color-paper: #f5f6f3;
-  --color-ink: #16211f;
-  --color-muted: #6b7773;
-  --color-line: #e3e7e3;
-  --color-brand: #0e6b5c;
-  --color-brand-dark: #0a5246;
-  --color-brand-soft: #e2f0ed;
-  --color-danger: #b4443a;
-  --color-danger-soft: #f8e6e4;
-  --color-warn: #8a5a00;
-  --color-warn-soft: #fbf0d6;
+  --color-paper: var(--c-paper);
+  --color-surface: var(--c-surface);
+  --color-ink: var(--c-ink);
+  --color-muted: var(--c-muted);
+  --color-line: var(--c-line);
+  --color-brand: var(--c-brand);
+  --color-brand-dark: var(--c-brand-dark);
+  --color-brand-soft: var(--c-brand-soft);
+  --color-brand-text: var(--c-brand-text);
+  --color-brand-fg: var(--c-brand-fg);
+  --color-danger: var(--c-danger);
+  --color-danger-soft: var(--c-danger-soft);
+  --color-warn: var(--c-warn);
+  --color-warn-soft: var(--c-warn-soft);
+  --color-amber: var(--c-amber);
 }
 
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--c-paper);
+  color: var(--c-ink);
   font-family: var(--font-sans);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--c-brand-fg);
   outline-offset: 2px;
 }

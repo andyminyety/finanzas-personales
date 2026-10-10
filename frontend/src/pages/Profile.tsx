@@ -65,7 +65,7 @@ export default function Profile() {
 
   const Ok = ({ text }: { text: string }) =>
     text ? (
-      <p className="flex items-center gap-2 rounded-lg bg-brand-soft px-3 py-2 text-sm font-medium text-brand-dark">
+      <p className="flex items-center gap-2 rounded-lg bg-brand-soft px-3 py-2 text-sm font-medium text-brand-text">
         <Check size={16} /> {text}
       </p>
     ) : null
@@ -76,7 +76,7 @@ export default function Profile() {
     <div className="max-w-2xl space-y-6">
       <h1 className="text-2xl font-extrabold tracking-tight">Mi perfil</h1>
 
-      <section className="rounded-xl border border-line bg-white p-6">
+      <section className="rounded-xl border border-line bg-surface p-6">
         <form onSubmit={saveProfile} className="space-y-4">
           <h2 className="font-bold">Datos personales</h2>
           <Field label="Nombre">
@@ -134,7 +134,7 @@ export default function Profile() {
         </form>
       </section>
 
-      <section className="rounded-xl border border-line bg-white p-6">
+      <section className="rounded-xl border border-line bg-surface p-6">
         <form onSubmit={savePassword} className="space-y-4">
           <h2 className="font-bold">Cambiar contraseña</h2>
           <Field label="Contraseña actual">

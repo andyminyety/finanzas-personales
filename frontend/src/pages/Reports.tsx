@@ -61,7 +61,7 @@ export default function Reports() {
   }
 
   const summary: [string, number, string][] = report ? [
-    ['Ingresos', report.totals.income, 'text-brand-dark'],
+    ['Ingresos', report.totals.income, 'text-brand-text'],
     ['Egresos', report.totals.expense, 'text-danger'],
     ['Balance', report.totals.balance, report.totals.balance < 0 ? 'text-danger' : 'text-ink'],
   ] : []
@@ -75,13 +75,13 @@ export default function Reports() {
         {TABS.map((t) => (
           <button key={t.kind} role="tab" aria-selected={t.kind === kind} onClick={() => setKind(t.kind)}
             className={`-mb-px whitespace-nowrap border-b-2 px-4 py-2 text-sm font-semibold ${
-              t.kind === kind ? 'border-brand text-brand-dark' : 'border-transparent text-muted hover:text-ink'}`}>
+              t.kind === kind ? 'border-brand text-brand-text' : 'border-transparent text-muted hover:text-ink'}`}>
             {t.label}
           </button>
         ))}
       </div>
 
-      <section className="mb-4 flex flex-wrap items-end gap-3 rounded-xl border border-line bg-white p-4" aria-label="Filtros">
+      <section className="mb-4 flex flex-wrap items-end gap-3 rounded-xl border border-line bg-surface p-4" aria-label="Filtros">
         {showUserFilter && (
           <div className="min-w-48">
             <label className={label} htmlFor="r-user">Usuario</label>
@@ -117,7 +117,7 @@ export default function Reports() {
             {exporting ? <Loader2 size={16} className="animate-spin" /> : <FileDown size={16} />} PDF
           </button>
           <button onClick={() => report && exportReportCsv(report, showUserColumn)} disabled={!report || loading}
-            className="flex items-center gap-2 rounded-lg border border-line bg-white px-4 py-2 text-sm font-bold hover:bg-paper disabled:opacity-50">
+            className="flex items-center gap-2 rounded-lg border border-line bg-surface px-4 py-2 text-sm font-bold hover:bg-paper disabled:opacity-50">
             <FileSpreadsheet size={16} /> Excel
           </button>
         </div>
@@ -130,7 +130,7 @@ export default function Reports() {
           <p className="mb-3 text-sm text-muted">{report.scope} · {periodText(report)} · {report.totals.count} transacciones activas</p>
           <div className="mb-4 grid gap-3 sm:grid-cols-3">
             {summary.map(([name, value, tone]) => (
-              <div key={name} className="rounded-xl border border-line bg-white p-4">
+              <div key={name} className="rounded-xl border border-line bg-surface p-4">
                 <p className="text-xs font-semibold text-muted">{name}</p>
                 <p className={`mt-1 text-xl font-extrabold ${tone}`}>{money(value)}</p>
               </div>
@@ -139,7 +139,7 @@ export default function Reports() {
         </>
       )}
 
-      <div className="overflow-x-auto rounded-xl border border-line bg-white">
+      <div className="overflow-x-auto rounded-xl border border-line bg-surface">
         <table className="w-full min-w-[560px] text-left text-sm">
           {table && (
             <thead className="border-b border-line text-muted">

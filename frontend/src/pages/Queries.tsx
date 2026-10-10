@@ -71,7 +71,7 @@ export default function Queries() {
       <PageHeader title="Consultas"
         subtitle={isAdmin ? 'Busca transacciones de todos los usuarios.' : 'Busca entre tus transacciones.'} />
 
-      <section className="mb-4 rounded-xl border border-line bg-white p-4" aria-label="Filtros">
+      <section className="mb-4 rounded-xl border border-line bg-surface p-4" aria-label="Filtros">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {isAdmin && (
             <div>
@@ -154,15 +154,15 @@ export default function Queries() {
       </section>
 
       <div className="mb-4 grid gap-3 sm:grid-cols-3">
-        <div className="rounded-xl border border-line bg-white p-4">
+        <div className="rounded-xl border border-line bg-surface p-4">
           <p className="text-xs font-semibold text-muted">Ingresos</p>
-          <p className="mt-1 text-xl font-extrabold text-brand-dark">{money(data?.totalIncome ?? 0)}</p>
+          <p className="mt-1 text-xl font-extrabold text-brand-text">{money(data?.totalIncome ?? 0)}</p>
         </div>
-        <div className="rounded-xl border border-line bg-white p-4">
+        <div className="rounded-xl border border-line bg-surface p-4">
           <p className="text-xs font-semibold text-muted">Egresos</p>
           <p className="mt-1 text-xl font-extrabold text-danger">{money(data?.totalExpense ?? 0)}</p>
         </div>
-        <div className="rounded-xl border border-line bg-white p-4">
+        <div className="rounded-xl border border-line bg-surface p-4">
           <p className="text-xs font-semibold text-muted">Balance</p>
           <p className={`mt-1 text-xl font-extrabold ${balance < 0 ? 'text-danger' : 'text-ink'}`}>{money(balance)}</p>
         </div>

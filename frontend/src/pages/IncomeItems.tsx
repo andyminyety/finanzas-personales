@@ -84,7 +84,7 @@ export default function IncomeItems() {
       <OwnerSelect value={owner} onChange={setOwner} />
       <ErrorBox message={pageError} />
 
-      <div className="mt-4 overflow-x-auto rounded-xl border border-line bg-white">
+      <div className="mt-4 overflow-x-auto rounded-xl border border-line bg-surface">
         <table className="w-full min-w-[640px] text-left text-sm">
           <thead className="border-b border-line text-muted">
             <tr>

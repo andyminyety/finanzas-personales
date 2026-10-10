@@ -22,7 +22,7 @@ export default function OwnerSelect({ value, onChange }: Props) {
   if (!isAdmin) return null
 
   return (
-    <div className="mb-4 flex flex-wrap items-center gap-3 rounded-xl border border-line bg-white p-3">
+    <div className="mb-4 flex flex-wrap items-center gap-3 rounded-xl border border-line bg-surface p-3">
       <label htmlFor="owner-select" className="flex items-center gap-2 text-sm font-semibold">
         <UserCog size={16} className="text-muted" /> Administrando los datos de
       </label>

@@ -1,8 +1,10 @@
-import { Loader2, LogIn, Wallet } from 'lucide-react'
+import { Loader2, LogIn } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { getErrorMessage } from '../api/axios'
 import { ErrorBox, Field, inputClass } from '../components/Field'
+import Logo from '../components/Logo'
+import ThemeToggle from '../components/ThemeToggle'
 import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
@@ -33,7 +35,7 @@ export default function Login() {
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="hidden flex-col justify-between bg-brand-dark p-12 text-white lg:flex">
         <span className="flex items-center gap-2.5 font-extrabold">
-          <span className="grid size-9 place-items-center rounded-lg bg-white/15"><Wallet size={18} /></span>
+          <Logo className="size-9 ring-1 ring-white/30" />
           Finanzas
         </span>
         <div>
@@ -47,7 +49,8 @@ export default function Login() {
         <p className="text-sm text-white/50">Sistema de Gestión de Finanzas Personales</p>
       </div>
 
-      <div className="flex items-center justify-center p-6">
+      <div className="relative flex items-center justify-center p-6">
+        <ThemeToggle className="absolute right-4 top-4" />
         <form onSubmit={onSubmit} className="w-full max-w-sm space-y-4">
           <div>
             <h2 className="text-2xl font-extrabold tracking-tight">Iniciar sesión</h2>
